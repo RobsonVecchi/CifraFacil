@@ -1,1 +1,8 @@
-print("Testing git Hello!")
+from fastapi import FastAPI
+
+app = FastAPI()
+
+@app.get("/")
+def read_root():
+    return {"Message" : "API CifraFacil online"}
+
