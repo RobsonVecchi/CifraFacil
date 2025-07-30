@@ -5,6 +5,7 @@ from typing import Optional
 class Cifra(BaseModel):
     id: Optional[int] = None
     nome: str
+    banda: str
     nivel: str  # iniciante, intermediária, avançada
     pestana: bool
     capotraste: bool
