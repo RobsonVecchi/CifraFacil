@@ -5,12 +5,20 @@ from . import models
 from .database import engine, SessionLocal
 from .validators import validar_nivel
 from fastapi import HTTPException
-
+from fastapi.middleware.cors import CORSMiddleware
 
 # Cria tabelas
 models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:4200"],  # coloque o seu front local aqui
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Pydantic schema
 class Cifra(BaseModel):
@@ -81,3 +89,7 @@ def delete_cifra(cifra_id: int, db: Session = Depends(get_db)):
     db.delete(db_cifra)
     db.commit()
     return {"ok": True}
+
+
+
+#uvicorn app.main:app
