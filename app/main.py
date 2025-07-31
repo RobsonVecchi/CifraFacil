@@ -1,10 +1,11 @@
 from fastapi import FastAPI, Depends
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
-
 from . import models
 from .database import engine, SessionLocal
 from .validators import validar_nivel
+from fastapi import HTTPException
+
 
 # Cria tabelas
 models.Base.metadata.create_all(bind=engine)
@@ -49,3 +50,34 @@ def criar_cifra(cifra: Cifra, db: Session = Depends(get_db)):
 @app.get("/cifras/")
 def listar_cifras(db: Session = Depends(get_db)):
     return db.query(models.Cifra).all()
+
+@app.put("/cifras/{cifra_id}")
+def update_cifra(cifra_id: int, cifra: Cifra, db: Session = Depends(get_db)):
+    db_cifra = db.query(models.Cifra).filter(models.Cifra.id == cifra_id).first()
+    if db_cifra is None:
+        raise HTTPException(status_code=404, detail="Cifra não encontrada")
+    
+    db_cifra.nome = cifra.nome
+    db_cifra.banda = cifra.banda
+    db_cifra.nivel = cifra.nivel
+    db_cifra.pestana = cifra.pestana
+    db_cifra.capotraste = cifra.capotraste
+    db_cifra.tonalidade = cifra.tonalidade
+    db_cifra.genero = cifra.genero
+    db_cifra.dedilhado = cifra.dedilhado
+    db_cifra.levada = cifra.levada
+
+    db.commit()
+    db.refresh(db_cifra)
+    return db_cifra
+
+
+@app.delete("/cifras/{cifra_id}")
+def delete_cifra(cifra_id: int, db: Session = Depends(get_db)):
+    db_cifra = db.query(models.Cifra).filter(models.Cifra.id == cifra_id).first()
+    if db_cifra is None:
+        raise HTTPException(status_code=404, detail="Cifra não encontrada")
+
+    db.delete(db_cifra)
+    db.commit()
+    return {"ok": True}
