@@ -1,40 +1,51 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Depends
 from pydantic import BaseModel
-from typing import Optional
-from fastapi import HTTPException
+from sqlalchemy.orm import Session
 
+from . import models
+from .database import engine, SessionLocal
+from .validators import validar_nivel
+
+# Cria tabelas
+models.Base.metadata.create_all(bind=engine)
+
+app = FastAPI()
+
+# Pydantic schema
 class Cifra(BaseModel):
-    id: Optional[int] = None
     nome: str
     banda: str
-    nivel: str  # iniciante, intermediária, avançada
+    nivel: str
     pestana: bool
     capotraste: bool
     tonalidade: str
     genero: str
-    dedilhado: Optional[bool] = False
-    levada: Optional[bool] = False
+    dedilhado: bool
+    levada: bool
 
+    # Validação com função externa
+    def __init__(self, **data):
+        super().__init__(**data)
+        validar_nivel(data["nivel"], data["pestana"])
 
-app = FastAPI()
+# Dependência para sessão do banco
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
 
-@app.get("/")
-def read_root():
-    return {"Message" : "API CifraFacil online"}
-
-cifras = []
-next_id = 1
-
+# Criar cifra
 @app.post("/cifras/")
-def criar_cifra(cifra: Cifra):
-    if cifra.nivel == "iniciante" and cifra.pestana:
-        raise HTTPException(status_code=400, detail="Cifra iniciante não pode ter pestana.")
-    global next_id
-    cifra.id = next_id
-    next_id += 1
-    cifras.append(cifra)
-    return cifra
+def criar_cifra(cifra: Cifra, db: Session = Depends(get_db)):
+    db_cifra = models.Cifra(**cifra.dict())
+    db.add(db_cifra)
+    db.commit()
+    db.refresh(db_cifra)
+    return db_cifra
 
+# Listar cifras
 @app.get("/cifras/")
-def listar_cifras():
-    return cifras
+def listar_cifras(db: Session = Depends(get_db)):
+    return db.query(models.Cifra).all()
