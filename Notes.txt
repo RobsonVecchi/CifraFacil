@@ -1,0 +1,85 @@
+# 📓 Projeto CifraFácil — NOTES.md
+
+## ✅ **Resumo**
+Aplicação fullstack para gerenciamento de cifras de músicas.  
+Backend em **FastAPI** + **PostgreSQL** + **SQLAlchemy**.  
+Frontend em **Angular** (ou HTML/JS) consumindo a API.
+
+---
+
+## 📂 **Estrutura de Pastas**
+
+CifraFacil/
+│
+├── app/
+│ ├── main.py # FastAPI principal
+│ ├── models.py # Model SQLAlchemy
+│ ├── validators.py # Validações de regra de negócio
+│ ├── init.py # (opcional)
+│ └── ... outros .py
+│
+├── frontend/ # Projeto Angular
+│ ├── src/app/
+│ │ ├── app.component.ts
+│ │ ├── cifra-form.component.ts
+│ │ ├── ...
+│ └── ...
+│
+├── tests/ # Pytest (opcional)
+│ ├── test_basics.py
+│ ├── ...
+│
+├── requirements.txt # Dependências Python
+├── NOTES.md # ESTE ARQUIVO
+└── README.md # Instruções do projeto
+
+yaml
+Copiar
+Editar
+
+---
+
+## ⚙️ **Backend**
+
+- **Framework:** FastAPI
+- **Banco:** PostgreSQL (via SQLAlchemy)
+- **Validação extra:** Função `validar_nivel` em `validators.py`
+
+### **Endpoints principais**
+| Método | Rota         | Descrição                   |
+|--------|---------------|-----------------------------|
+| GET    | `/cifras/`   | Lista todas as cifras       |
+| POST   | `/cifras/`   | Cria nova cifra             |
+| PUT    | `/cifras/{id}` | Atualiza cifra por ID      |
+| DELETE | `/cifras/{id}` | (A FAZER, se quiser)       |
+
+---
+
+## 📌 **Schemas (Pydantic)**
+
+```python
+class Cifra(BaseModel):
+    nome: str
+    banda: str
+    nivel: str
+    pestana: bool
+    capotraste: bool
+    tonalidade: str
+    genero: str
+    dedilhado: bool
+    levada: bool
+
+    def __init__(self, **data):
+        super().__init__(**data)
+        validar_nivel(data["nivel"], data["pestana"])
+💻 Frontend (Angular)
+Component: app.component.ts
+
+Faz fetch ou HttpClient POST para /cifras/
+
+Também pode fazer GET para /cifras/ e renderizar lista
+
+🧪 Testes
+pytest configurado para funções básicas.
+
+Cobertura mínima (pytest --cov).
