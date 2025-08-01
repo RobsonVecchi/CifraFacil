@@ -3,59 +3,8 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-root',
   standalone: true,
-  template: `
-    <h1>Enviar Cifra</h1>
-    <form (submit)="enviarCifra($event)">
-      <label>
-        Nome:
-        <input type="text" name="nome" placeholder="Nome" required />
-      </label>
-      <br />
-      <label>
-        Banda:
-        <input type="text" name="banda" placeholder="Banda" required />
-      </label>
-      <br />
-      <label>
-        Nível:
-        <input type="text" name="nivel" placeholder="Nivel" required />
-      </label>
-      <br />
-      <label>
-        Pestana:
-        <input type="checkbox" name="pestana" />
-      </label>
-      <br />
-      <label>
-        Capotraste:
-        <input type="checkbox" name="capotraste" />
-      </label>
-      <br />
-      <label>
-        Tonalidade:
-        <input type="text" name="tonalidade" placeholder="Tonalidade" />
-      </label>
-      <br />
-      <label>
-        Gênero:
-        <input type="text" name="genero" placeholder="Genero" />
-      </label>
-      <br />
-      <label>
-        Dedilhado:
-        <input type="checkbox" name="dedilhado" />
-      </label>
-      <br />
-      <label>
-        Levada:
-        <input type="checkbox" name="levada" />
-      </label>
-      <br />
-      <button type="submit">Enviar</button>
-    </form>
-
-    <p *ngIf="resultado">{{ resultado }}</p>
-  `,
+  templateUrl: './app.component.html',  // HTML externo
+  styleUrls: ['./app.component.css'],   // CSS externo
 })
 export class AppComponent {
   resultado = '';
@@ -94,4 +43,3 @@ export class AppComponent {
       });
   }
 }
-

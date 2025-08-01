@@ -1,43 +1,38 @@
-<h1>Nova Cifra</h1>
+<div class="container">
+  <h1>🎸 Enviar Cifra</h1>
 
-<form (ngSubmit)="enviarCifra()">
-  <label>Nome:</label>
-  <input [(ngModel)]="cifra.nome" name="nome" required>
+  <form (submit)="enviarCifra($event)">
+    <label>Nome:
+      <input type="text" name="nome" placeholder="Nome" required />
+    </label>
 
-  <label>Banda:</label>
-  <input [(ngModel)]="cifra.banda" name="banda" required>
+    <label>Banda:
+      <input type="text" name="banda" placeholder="Banda" required />
+    </label>
 
-  <label>Nível:</label>
-  <input [(ngModel)]="cifra.nivel" name="nivel">
+    <label>Nível:
+      <input type="text" name="nivel" placeholder="Nível" required />
+    </label>
 
-  <label>Pestana:</label>
-  <input type="checkbox" [(ngModel)]="cifra.pestana" name="pestana">
+    <label><input type="checkbox" name="pestana" /> Pestana</label>
+    <label><input type="checkbox" name="capotraste" /> Capotraste</label>
+    <label><input type="checkbox" name="dedilhado" /> Dedilhado</label>
+    <label><input type="checkbox" name="levada" /> Levada</label>
 
-  <label>Capotraste:</label>
-  <input type="checkbox" [(ngModel)]="cifra.capotraste" name="capotraste">
+    <label>Tonalidade:
+      <input type="text" name="tonalidade" placeholder="Tonalidade" />
+    </label>
 
-  <label>Tonalidade:</label>
-  <input [(ngModel)]="cifra.tonalidade" name="tonalidade">
+    <label>Gênero:
+      <input type="text" name="genero" placeholder="Gênero" />
+    </label>
 
-  <label>Gênero:</label>
-  <input [(ngModel)]="cifra.genero" name="genero">
+    <button type="submit">Enviar</button>
+  </form>
 
-  <label>Dedilhado:</label>
-  <input type="checkbox" [(ngModel)]="cifra.dedilhado" name="dedilhado">
-
-  <label>Levada:</label>
-  <input type="checkbox" [(ngModel)]="cifra.levada" name="levada">
-
-  <button type="submit">Enviar</button>
-</form>
-
-<p *ngIf="resposta">
-  Resposta: {{ resposta | json }}
-</p>
-
-
+  <p *ngIf="resultado">{{ resultado }}</p>
+</div>
 <!-- * * * * * * * * * * End of Placeholder  * * * * * * * * * * * * -->
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
 
 
-<router-outlet />
