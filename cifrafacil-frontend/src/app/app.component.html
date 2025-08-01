@@ -1,0 +1,43 @@
+<h1>Nova Cifra</h1>
+
+<form (ngSubmit)="enviarCifra()">
+  <label>Nome:</label>
+  <input [(ngModel)]="cifra.nome" name="nome" required>
+
+  <label>Banda:</label>
+  <input [(ngModel)]="cifra.banda" name="banda" required>
+
+  <label>Nível:</label>
+  <input [(ngModel)]="cifra.nivel" name="nivel">
+
+  <label>Pestana:</label>
+  <input type="checkbox" [(ngModel)]="cifra.pestana" name="pestana">
+
+  <label>Capotraste:</label>
+  <input type="checkbox" [(ngModel)]="cifra.capotraste" name="capotraste">
+
+  <label>Tonalidade:</label>
+  <input [(ngModel)]="cifra.tonalidade" name="tonalidade">
+
+  <label>Gênero:</label>
+  <input [(ngModel)]="cifra.genero" name="genero">
+
+  <label>Dedilhado:</label>
+  <input type="checkbox" [(ngModel)]="cifra.dedilhado" name="dedilhado">
+
+  <label>Levada:</label>
+  <input type="checkbox" [(ngModel)]="cifra.levada" name="levada">
+
+  <button type="submit">Enviar</button>
+</form>
+
+<p *ngIf="resposta">
+  Resposta: {{ resposta | json }}
+</p>
+
+
+<!-- * * * * * * * * * * End of Placeholder  * * * * * * * * * * * * -->
+<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
+
+
+<router-outlet />
